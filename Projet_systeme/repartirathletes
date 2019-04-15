@@ -1,0 +1,52 @@
+#!/bin/bash
+#Ecrire la commande repartirathletes qui à partir du fichier athletes.txt, disperse les athlètes dans des fichiers différents en fonction de leur catégorie.
+#Ces fichiers seront nommés du nom de la categorie et de suffixe txt. 
+#On créera donc les fichiers de nom baby.txt, eveilathle.txt, poussin.txt,benjamin.txt, minime.txt, cadet.txt, junior.txt, espoir.txt, senior.txt, veteran.txt
+# Auteur : Siwar ZAIED et DALLO Thierno Alseny
+function aide ()
+# affiche l'aide de la commande (si $1 = "--help")
+{
+        echo "usage: afficherresultat affiche la catégorie et le meilleur lancé d’un athlète donné"
+        echo "verifie que chaque parametre est un entier"
+        echo "affiche chaque valeur entiere sur la sortie standard"
+        echo "affiche un message d'erreur pour chaque valeur incorrecte (sur sortie erreur)"
+ }
+ #programme principale
+
+if [ $# -eq 0 ] ; then
+	echo "aucun parametre saisie!" >&2
+elif [ $1 = "--help" ] ; then
+	aide 
+else
+  IFS=:              # : est le caractère séparateur des données sur la ligne
+  while read -r n1 n2 n3 n4 n5 n6
+  do
+    if [ "${n1:0:1}" != "#" ] ; then  # on ignore les lignes commençant par #
+      
+      anneeAT="${n3: -4}" 	#n3: -4 ça veut dire c'est de prendre de la partie 4 les 4 derniers chiffre est les mettre en variable anneeAT
+      categ=$(./categorie $anneeAT)	# on prend juste l'année est la classifier selon la catégorie en appelant la fonction categorie 
+      case $categ in veteran ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> veteran.txt;; 
+#disperser les athlètes dans des fichiers différents en fonction de leur catégorie en utilisant la boucle selon 
+          
+	senior ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> senior.txt ;;
+
+        espoir ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> espoir.txt ;;
+
+        junior ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> junior.txt ;;
+
+        cadet ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> cadet.txt ;;
+
+        minime ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> minime.txt ;;
+
+        benjamin ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> benjamin.txt ;;
+
+        poussin ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> poussin.txt ;;
+
+        eveilathle ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> eveilathle.txt ;;
+
+        baby ) echo $n1":"$n2":"$n3":"$n4":"$n5":"$n6  >> baby.txt ;;
+      esac
+    fi
+  done < "$1"
+# <"$1" permette de sortir de la commande
+fi

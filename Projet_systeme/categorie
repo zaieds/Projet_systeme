@@ -1,0 +1,104 @@
+#!/bin/bash
+# tableau associatif declare -A tab
+# Auteur : Siwar ZAIED et DALLO Thierno Alseny
+function isnum ()
+#fonction qui renvoie 0 (vrai) quand l'argument qui lui est passé en paramètre est un nombre (positif ou négatif), 1 sinon
+{
+   if [[ "$1" =~ ^[-+]?[0-9]+$ ]]; then
+      return 0
+   else
+      return 1
+   fi
+}
+function aide ()
+# affiche l'aide de la commande (si $1 = "--help")
+{
+        echo "usage : categorie et annee de naissance"
+        echo "verifie que chaque parametre est un entier"
+        echo "affiche chaque valeur entiere sur la sortie standard"
+        echo "affiche un message d'erreur pour chaque valeur incorrecte (sur sortie erreur)"
+    }
+
+if [ $# -eq 0 ]; then 
+   echo "aucun parametre saisie !" >&2
+  
+elif [ $1 = "--help" ] ; then
+   aide 
+else 
+# j'ai crée un tableau tab ou j'ai mis les catégorie et les dates
+declare -A tab
+tab["1979"]="vÃ©tÃ©ran" 
+tab["1996"]="senior"
+tab["1999"]="espoir"
+tab["2001"]="junior"
+tab["2003"]="cadet"
+tab["2005"]="minime"
+tab["2007"]="benjamin"
+tab["2009"]="poussin"
+tab["2012"]="Ã©veilathlÃ©"
+tab["2014"]="baby"
+if  ! isnum $1   ; then # si la valeur de l'argument 1 est diffenrent à la fonction isnum
+echo "$1 n'est pas un entier" >&2 # un message d'erreur va s'afficher si l'argument n'est pas un entier 
+else
+# j'ai declaré que les années dans des variables
+b0=1979
+b1=1996
+b2=1999
+b3=2001
+b4=2003
+b5=2005
+b6=2007
+b7=2009
+b8=2012
+b9=2014
+b10=2015
+# si le premier argument $1 est bien un entier et inférieur à $b0 qui est 1979
+if isnum $1 && [ $1 -le $b0 ] 
+then
+#categ prend la valeur de l'indice 1979 dans le tableau qui est veteran
+categ=${tab["1979"]} 
+echo $categ
+elif isnum $1 && [ $1 -le $b1 ] 
+then
+categ=${tab["1996"]}
+echo  $categ
+elif isnum $1 && [ $1 -le $b2 ] 
+then
+categ=${tab["1999"]} 
+echo $categ 
+elif isnum $1 && [ $1 -le $b3 ] 
+then
+categ=${tab["1999"]} 
+echo $categ
+elif [ $1 -le $b4 ] 
+then
+categ=${tab["2003"]} 
+echo $categ
+elif isnum $1 && [ $1 -le $b5 ] 
+then
+categ=${tab["2005"]} 
+echo  $categ
+elif [ $1 -le $b6 ] 
+then
+categ=${tab["2007"]}
+echo  $categ
+elif isnum $1 && [ $1 -le $b7 ] 
+then
+categ=${tab["2009"]}
+echo  $categ
+elif isnum $1 && [ $1 -le $b8 ] 
+then
+categ=${tab["2012"]}
+echo  $categ
+elif isnum $1 && [ $1 -le $b9 ] 
+then
+categ=${tab["2014"]}
+echo  $categ
+elif isnum $1 && [ $1 -le $b10 ] 
+then
+categ=${tab["2015"]}
+echo -e "Trop jeune" >&2 
+#si l'annee est egale à 2015 un message d'erreur va s'afficher est trop jeune
+fi 
+fi 
+fi

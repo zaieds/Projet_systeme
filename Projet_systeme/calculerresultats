@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#Ecrire la commande calculerresultats qui affiche, pour chaque athlète d’un fichier donné, sa catégorie d’âge et son meilleur lancé.
+#Le fichier contenant les athlètes et leurs performances au javelot est un paramètre de la commande
+# Auteur : Siwar ZAIED et DALLO Thierno Alseny
+
+function aide ()
+# affiche l'aide de la commande (si $1 = "--help")
+{
+        echo "usage: afficherresultat affiche la catégorie et le meilleur lancé d’un athlète donné"
+	echo "verifie le prénom et le nom de l'athète soit des lettres"
+        echo "verifie la date est bien un entier"
+        echo "affiche chaque valeur entiere sur la sortie standard"
+        echo "affiche un message d'erreur pour chaque valeur incorrecte (sur sortie erreur)"
+ }
+#programme principale
+
+if [ $# -eq 0 ] ; then
+	echo "aucun parametre saisie!" >&2
+	
+elif [ $1 = "--help" ] ; then
+	aide 
+else
+  IFS=:        
+# : est le caractère séparateur des données sur la ligne
+  while read -r n1 n2 n3 n4 n5 n6
+  do
+    if [ "${n1:0:1}" != "#" ] ; then  
+#ignorer les lignes qui commence par # 
+#n3: -4 ça veut dire c'est de prendre de la partie 4 les 4 derniers chiffre est les mettre en variable anneeAT
+      anneeAT="${n3: -4}" 
+#faire l'appel au fonction catégorie en enregistant le resultat dans categ
+      categ=$(./categorie $anneeAT)
+#faire l'appel au fonction maximum en enregistant le resultat dans max
+      max=$(./maximum $n4 $n5 $n6)
+      echo "le meilleur lancer du " $categ $n1 $n2 "et de " $max "m"
+    fi
+  done < "$1" 
+# <"$1" permette de sortir de la commande 
+fi

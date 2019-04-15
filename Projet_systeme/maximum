@@ -1,0 +1,41 @@
+#!/bin/bash
+#la commande maximum qui calcule dans la variable nommée maxi et affiche le maximum d’une liste d’entiers passée en paramètres.
+# $# dièse est la variable contenant le nombre d'argument
+# test expression ou [ expression ] teste si expression est vraie retourn 0 ou faux 
+# $? affiche le résultat du test
+# Auteur : Siwar ZAIED et DALLO Thierno Alseny
+function isnum ()
+#fonction qui renvoie 0 (vrai) quand l'argument qui lui est passé en paramètre est un nombre (positif ou négatif), 1 sinon
+{
+   if [[ "$i" =~ ^[-+]?[0-9]+$ ]]; then
+      return 0
+   else
+      return 1
+   fi
+}
+function aide ()
+# affiche l'aide de la commande (si $1 = "--help")
+{
+        echo "usage : maximum x1 x2 ... xn "
+        echo "verifie que chaque parametre est un entier"
+        echo "affiche chaque valeur entiere sur la sortie standard"
+        echo "affiche un message d'erreur pour chaque valeur incorrecte (sur sortie erreur)"
+    }
+
+if [ $# -eq 0 ] ; then  # si la variable contenant le nombre d'argument est égale à 0
+echo "aucun parametre saisie! " # afficher un message "aucun parametre saisie!"
+elif [ $1 = "--help" ] ; then # si le premier argument est égale à "--help" afficher le contenue de la fonction aide 
+aide
+else
+max=$1 # initialisation des variables max pour le premier argument $1 et maxi pour le maximum de l'indice
+i=0 # i c'est l'indice de parcours
+for i in $@ # pour i de 0 à $@ ( $@ c'est l'ensemble des arguments, un argument par paramètre)
+ do
+if  ! isnum $i ; then # si la valeur de l'argument i est diffenrent à la fonction isnum
+echo "$i n'est pas un entier" >&2 # un message d'erreur va s'afficher si l'argument n'est pas un entier 
+elif isnum $i && [ $i -gt $max ] ; then # est  $i est bien un entier est $i est supérieur à premier argument $max 
+ max=$i # max prend la valeur de $i
+ fi
+ done #fin de boucle pour (for)
+ echo "$max" # afficher la valeur maximum 
+fi 

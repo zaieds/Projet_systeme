@@ -1,0 +1,32 @@
+#!/bin/bash
+#la commande afficherresultat qui affiche la catégorie et le meilleur lancé d’un athlète donné.
+#La commande afficherresultat doit comporter 6 paramètres : le prénom et le nom de l’athlète, sa date de naissance (au format j-m-aaaa) et les 3 essais.
+# Auteur : Siwar ZAIED et DALLO Thierno Alseny
+function aide ()
+# affiche l'aide de la commande (si $1 = "--help")
+{
+        echo "usage: afficherresultat affiche la catégorie et le meilleur lancé d’un athlète donné"
+        echo "verifie que chaque parametre est un entier"
+        echo "affiche chaque valeur entiere sur la sortie standard"
+        echo "affiche un message d'erreur pour chaque valeur incorrecte (sur sortie erreur)"
+ }
+ #programme principale
+
+if [ $# -eq 0 ] ; then
+	echo "aucun parametre saisie!" >&2
+elif [ $1 = "--help" ] ; then
+	aide
+ 
+else
+for  i in $6 # faire une boucle for qui commence par i jusqu'à paramètre 6
+do
+	{
+  	annee=$3 # annee prend la valeur de paramètre $3
+  	dateATlete="${annee: -4}" #n3: -4 ça veut dire c'est de prendre de l'argument 3 les 4 derniers chiffres est les mettre en variable anneeAT
+  	categ=$(./categorie $dateATlete) #faire l'appel au fonction catégorie en enregistant le resultat dans categ 
+  	max=$(./maximum $4 $5 $6) #faire l'appel au fonction maximum en enregistant le resultat dans max
+	maxlance=$max
+}
+done
+echo "le meilleur lance du" $categ $1 $2 "est de" $maxlance
+fi
